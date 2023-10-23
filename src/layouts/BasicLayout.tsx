@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { FC, useState } from 'react'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import { Layout, Button, theme } from 'antd'
 import MenuNav from '@/components/MenuNav'
@@ -6,7 +6,7 @@ import { Outlet } from 'react-router'
 
 const { Header, Sider, Content } = Layout
 
-const BasicLayout: React.FC = () => {
+const BasicLayout: FC = () => {
   const [collapsed, setCollapsed] = useState(false)
   const {
     token: { colorBgContainer }

@@ -11,3 +11,7 @@ div {
   height: 50px;
   background: #d7d7d7;
 }
+
+.ant-btn-background-ghost:disabled {
+  color: rgb(173, 173, 173) !important;
+}

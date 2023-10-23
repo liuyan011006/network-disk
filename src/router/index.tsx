@@ -1,7 +1,9 @@
 import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
+import BasicLayout from '@/layouts/BasicLayout'
+import LoginLayout from '@/layouts/LoginLayout'
 
-const BasicLayout = lazy(() => import('@/layouts/BasicLayout'))
+const Login = lazy(() => import('@/pages/Login'))
 const Home = lazy(() => import('@/pages/Home'))
 const MyFile = lazy(() => import('@/pages/MyFile'))
 const MyShare = lazy(() => import('@/pages/MyShare'))
@@ -22,7 +24,7 @@ const withLoadingComponent = (element: JSX.Element) => (
 const router = createBrowserRouter([
   {
     path: '/',
-    Component: BasicLayout,
+    element: <BasicLayout />,
     children: [
       {
         index: true,
@@ -39,6 +41,16 @@ const router = createBrowserRouter([
       {
         path: 'recycleFile',
         element: withLoadingComponent(<RecycleFile />)
+      }
+    ]
+  },
+  {
+    path: '/login',
+    element: <LoginLayout />,
+    children: [
+      {
+        index: true,
+        element: <Login />
       }
     ]
   }
