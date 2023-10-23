@@ -12,6 +12,13 @@ export default defineConfig({
     extensions: ['.js', '.ts', '.json', ".tsx"] // 导入时想要省略的扩展名列表
   },
   server: {
-    open: true
+    open: true,
+    proxy: {
+      "/api": {
+        target: "http://120.27.194.228:1314/",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
   },
 })
