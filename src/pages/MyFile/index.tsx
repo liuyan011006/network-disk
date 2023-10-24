@@ -1,8 +1,8 @@
 import { FC } from 'react'
 import styles from './index.module.scss'
 
-const About: FC = () => {
-  return <div className={styles.red}>about页面</div>
+const MyFile: FC = () => {
+  return <div></div>
 }
 
-export default About
+export default MyFile

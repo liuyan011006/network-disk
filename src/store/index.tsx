@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { ADD_SLICE_NAME, addReducer } from './add'
+import { BREADCRUMB_SLICE_NAME, breadcrumbReducer } from './breadcrumb'
 
 export const store = configureStore({
   reducer: {
-    [ADD_SLICE_NAME]: addReducer
+    [BREADCRUMB_SLICE_NAME]: breadcrumbReducer
   }
 })
 

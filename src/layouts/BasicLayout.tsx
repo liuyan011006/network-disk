@@ -1,17 +1,20 @@
 import { FC, useState } from 'react'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
-import { Layout, Button, theme } from 'antd'
+import { Layout, Button, theme, Breadcrumb } from 'antd'
+import { useSelector } from 'react-redux'
+import { selectBreadcrumbItems } from '@/store/breadcrumb/selector'
+
 import MenuNav from '@/components/MenuNav'
 import { Outlet } from 'react-router'
 
 const { Header, Sider, Content } = Layout
 
 const BasicLayout: FC = () => {
+  const breadcrumbItems = useSelector(selectBreadcrumbItems)
   const [collapsed, setCollapsed] = useState(false)
   const {
     token: { colorBgContainer }
   } = theme.useToken()
-
   return (
     <Layout style={{ height: '100vh' }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -31,6 +34,11 @@ const BasicLayout: FC = () => {
             }}
           />
         </Header>
+        <Breadcrumb
+          style={{ padding: '30px 30px 0' }}
+          separator=">"
+          items={breadcrumbItems}
+        />
         <Content
           style={{
             margin: '24px 16px',
