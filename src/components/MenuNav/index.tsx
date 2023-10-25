@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router'
 import { useDispatch } from 'react-redux'
 import { addBreadcrumbItem, deleteBreadcrumbItems } from '@/store/breadcrumb'
 import { Menu } from 'antd'
-import { navItems } from '@/constant/navList'
+import { navItems } from '@/constant/NavList'
 
 const MenuNav: FC = () => {
   const dispatch = useDispatch()

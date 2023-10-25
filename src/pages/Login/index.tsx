@@ -4,6 +4,7 @@ import { Space, Input, Button, message, Radio } from 'antd'
 import styles from './login.module.scss'
 
 // import { toPloginApi, toCloginApi, sendCodeApi } from '@/request/loginApi'
+import { toPloginApi, toCloginApi, sendCodeApi } from '@/api/loginApi'
 import SendCodeBtn from '@/components/SendCodeBtn'
 import useInput from '@/hooks/useInput'
 
@@ -14,45 +15,35 @@ const View = () => {
   const codeNumber = useInput()
   const [isAccountOrPhone, setIsAccountOrPhone] = useState(true)
 
-  //账号密码登录
   async function toPlogin() {
     if (username.value.trim() === '' || password.value.trim() === '') {
       return message.warning('请完整输入信息！')
     }
-    // //发起登录请求
-    // const { code, data } = await toPloginApi({
-    //   username: username.value,
-    //   password: password.value
-    // })
-    // console.log(code, data)
-    // if (code !== 200) return message.error('登录失败!')
-    // message.success('登录成功！')
-    // localStorage.setItem('future-network-token', data.token)
+    const { code, data } = await toPloginApi(username.value, password.value)
+    if (code !== 200) return message.error('登录失败!')
+    message.success('登录成功！')
+    localStorage.setItem('wl-network-token', data.token)
     navigateTo('/')
   }
-  // 手机登录
+
   async function toClogin() {
     if (username.value.trim() === '' || codeNumber.value.trim() === '') {
       return message.warning('请完整输入信息！')
     }
-    // const { code, data } = await toCloginApi({
-    //   username: username.value,
-    //   code: codeNumber.value
-    // })
-    // if (code !== 200) return message.error('登录失败!')
-    // message.success('登录成功！')
-    // localStorage.setItem('future-network-token', data.token)
-    // navigateTo('/home')
+    const { code, data } = await toCloginApi(username.value, codeNumber.value)
+    if (code !== 200) return message.error('登录失败!')
+    message.success('登录成功！')
+    localStorage.setItem('wl-network-token', data.token)
+    navigateTo('/')
   }
 
-  //发送验证码
   async function toSendCode(callback: Function) {
     if (username.value.trim().length !== 11) {
       return message.warning('请输入正确手机号！')
     }
-    // const { code, data } = await sendCodeApi({ username: username.value })
-    // if (code !== 200) return message.error('发送验证码失败!')
-    // message.success('发送验证码成功!')
+    const { code } = await sendCodeApi(username.value)
+    if (code !== 200) return message.error('发送验证码失败!')
+    message.success('发送验证码成功!')
     callback()
   }
 
