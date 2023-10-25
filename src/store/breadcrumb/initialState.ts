@@ -1,5 +1,6 @@
 export interface IBreadcrumbItem {
-  title: string
+  key: string;
+  title: string;
 }
 
 interface IInitialState {
@@ -7,9 +8,5 @@ interface IInitialState {
 }
 
 export const initialState: IInitialState = {
-  items: [
-    {
-      title: '首页'
-    }
-  ]
+  items: JSON.parse(sessionStorage.getItem("breadcrumb") as string) || [{ key: "/", title: "首页" }]
 }
