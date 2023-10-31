@@ -1,10 +1,13 @@
 import { FC } from 'react'
-import { Button } from 'antd'
+import { Button, Space } from 'antd'
 
 const Home: FC = () => {
   return (
     <div>
-      <Button>hello Home</Button>
+      <Space>
+        <Button>上传</Button>
+        <Button>新建文件夹</Button>
+      </Space>
     </div>
   )
 }

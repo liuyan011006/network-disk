@@ -1,5 +1,4 @@
 import {
-  HomeOutlined,
   HistoryOutlined,
   ClearOutlined,
   FolderOutlined,
@@ -9,30 +8,35 @@ import type { MenuProps } from 'antd'
 
 export const navItems: MenuProps['items'] = [
   {
-    label: '首页',
-    key: '/',
-    icon: <HomeOutlined />
-  },
-  {
     label: '我的文件',
-    key: 'myFile',
+    key: '/index',
     icon: <FolderOutlined />,
     children: [
       {
+        label: '全部',
+        key: '/index?category=all',
+        icon: <HistoryOutlined />
+      },
+      {
         label: '最近',
-        key: '/myFile?p=0',
+        key: '/index?category=1',
+        icon: <HistoryOutlined />
+      },
+      {
+        label: '视频',
+        key: '/index?category=2',
+        icon: <HistoryOutlined />
+      },
+      {
+        label: '文件',
+        key: '/index?category=3',
         icon: <HistoryOutlined />
       }
     ]
   },
   {
-    label: '我的分享',
-    key: '/myShare',
-    icon: <GiftOutlined />
-  },
-  {
     label: '回收站',
-    key: '/recycleFile',
+    key: '/recycle',
     icon: <ClearOutlined />
   }
 ]

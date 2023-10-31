@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Space, Input, Button, message, Radio } from 'antd'
-import styles from './login.module.scss'
-
-// import { toPloginApi, toCloginApi, sendCodeApi } from '@/request/loginApi'
+import styles from './index.module.scss'
 import { toPloginApi, toCloginApi, sendCodeApi } from '@/api/loginApi'
 import SendCodeBtn from '@/components/SendCodeBtn'
 import useInput from '@/hooks/useInput'

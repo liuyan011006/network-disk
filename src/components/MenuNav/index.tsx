@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router'
 import { useDispatch } from 'react-redux'
 import { addBreadcrumbItem, deleteBreadcrumbItems } from '@/store/breadcrumb'
 import { Menu } from 'antd'
-import { navItems } from '@/constant/NavList'
+import { navItems } from '@/components/MenuNav/menuNav'
 
 const MenuNav: FC = () => {
   const dispatch = useDispatch()
@@ -13,7 +13,7 @@ const MenuNav: FC = () => {
   const path = useMemo(() => pathname + search, [pathname, search])
 
   useEffect(() => {
-    setOpenKey(pathname.slice(1))
+    setOpenKey(pathname)
     dispatch(deleteBreadcrumbItems(pathname))
   }, [pathname])
 
@@ -27,6 +27,11 @@ const MenuNav: FC = () => {
     )
   }
 
+  function onOpenChange(keys: string[]) {
+    console.log(keys)
+    setOpenKey(keys[keys.length - 1])
+  }
+
   return (
     <Menu
       theme="light"
@@ -36,7 +41,7 @@ const MenuNav: FC = () => {
       openKeys={[openKey]}
       items={navItems}
       onClick={onClick}
-      onOpenChange={(keys) => setOpenKey(keys[keys.length - 1])}
+      onOpenChange={(keys) => onOpenChange(keys)}
     />
   )
 }

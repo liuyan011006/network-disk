@@ -27,20 +27,16 @@ const router = createBrowserRouter([
     element: <BasicLayout />,
     children: [
       {
-        index: true,
+        path: 'index',
         element: withLoadingComponent(<Home />)
       },
       {
-        path: 'myFile',
-        element: withLoadingComponent(<MyFile />)
-      },
-      {
-        path: 'myShare',
-        element: withLoadingComponent(<MyShare />)
-      },
-      {
-        path: 'recycleFile',
+        path: 'recycle',
         element: withLoadingComponent(<RecycleFile />)
+      },
+      {
+        path: 'share',
+        element: withLoadingComponent(<MyShare />)
       }
     ]
   },
