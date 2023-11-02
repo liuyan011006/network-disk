@@ -1,8 +1,7 @@
 import {
   HistoryOutlined,
   ClearOutlined,
-  FolderOutlined,
-  GiftOutlined
+  FolderOutlined
 } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
 
@@ -14,7 +13,7 @@ export const navItems: MenuProps['items'] = [
     children: [
       {
         label: '全部',
-        key: '/index?category=all',
+        key: '/index?category=0&path=0',
         icon: <HistoryOutlined />
       },
       {

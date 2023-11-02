@@ -28,7 +28,6 @@ const MenuNav: FC = () => {
   }
 
   function onOpenChange(keys: string[]) {
-    console.log(keys)
     setOpenKey(keys[keys.length - 1])
   }
 

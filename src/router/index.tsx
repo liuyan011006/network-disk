@@ -5,7 +5,6 @@ import LoginLayout from '@/layouts/LoginLayout'
 
 const Login = lazy(() => import('@/pages/Login'))
 const Home = lazy(() => import('@/pages/Home'))
-const MyFile = lazy(() => import('@/pages/MyFile'))
 const MyShare = lazy(() => import('@/pages/MyShare'))
 const RecycleFile = lazy(() => import('@/pages/RecycleFile'))
 
