@@ -14,3 +14,7 @@ interface IFile {
     bytes: string | null
 }
 
+interface IPathItem {
+    id: number;
+    folderName: string;
+}

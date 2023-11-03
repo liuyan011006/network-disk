@@ -4,7 +4,7 @@ export function parseSearch(search: string) {
     str.forEach((item) => {
         const [key, val] = item.split("=");
         // @ts-ignore
-        obj[key] = Number(val)
+        obj[key] = val
     })
     return obj
 }

@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
+import { Spin } from 'antd'
 import BasicLayout from '@/layouts/BasicLayout'
 import LoginLayout from '@/layouts/LoginLayout'
 
@@ -11,8 +12,8 @@ const RecycleFile = lazy(() => import('@/pages/RecycleFile'))
 const withLoadingComponent = (element: JSX.Element) => (
   <Suspense
     fallback={
-      <div>
-        <h1>Loading...</h1>
+      <div style={{ height: '100%', width: '100%', textAlign: 'center' }}>
+        <Spin />
       </div>
     }
   >

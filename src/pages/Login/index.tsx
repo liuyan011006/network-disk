@@ -21,7 +21,7 @@ const View = () => {
     if (code !== 200) return message.error('登录失败!')
     message.success('登录成功！')
     localStorage.setItem('wl-network-token', data.token)
-    navigateTo('/index?category=all')
+    navigateTo('/index?category=0&path=0')
   }
 
   async function toClogin() {
@@ -32,7 +32,7 @@ const View = () => {
     if (code !== 200) return message.error('登录失败!')
     message.success('登录成功！')
     localStorage.setItem('wl-network-token', data.token)
-    navigateTo('/index?category=all')
+    navigateTo('/index?category=0&path=0')
   }
 
   async function toSendCode(callback: Function) {

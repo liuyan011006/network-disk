@@ -2,13 +2,15 @@ import { FC, useMemo } from 'react'
 import { UploadOutlined, FolderAddFilled } from '@ant-design/icons'
 import styles from './index.module.scss'
 import { Button, Space } from 'antd'
-import FileTable from '@/components/FileTable'
 import { useLocation } from 'react-router'
 import { parseSearch } from '@/utils/path'
 
+import DataPath from '@/components/DataPath'
+import FileTable from '@/components/FileTable'
+
 const Home: FC = () => {
   const { search } = useLocation()
-  const searchObj: any = useMemo(() => parseSearch(search), [search])
+  const { category, path }: any = useMemo(() => parseSearch(search), [search])
 
   return (
     <div style={{ height: '100%' }}>
@@ -19,10 +21,10 @@ const Home: FC = () => {
         <Button icon={<FolderAddFilled />}>新建文件夹</Button>
       </Space>
       <div>
-        <p>全部文件</p>
+        <DataPath category={category} path={path} />
       </div>
       <div className={styles.tableContainer}>
-        <FileTable {...searchObj} />
+        <FileTable category={category} path={path} />
       </div>
     </div>
   )

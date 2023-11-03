@@ -1,37 +1,58 @@
 import { FC, useEffect, useState } from 'react'
-import { Table, Space, Button } from 'antd'
-import { getFileDataApi } from '@/api/fileApi'
+import { Table, Space } from 'antd'
+import { getFileDataApi, searchFileDataTypeApi } from '@/api/fileApi'
 import { typeObj } from './file_table'
 import type { ColumnsType } from 'antd/es/table'
 import { Link } from 'react-router-dom'
+import {
+  EditOutlined,
+  DeleteFilled,
+  DownloadOutlined,
+  ShareAltOutlined
+} from '@ant-design/icons'
+import styles from './index.module.scss'
 
 interface IFileTableProps {
-  path: number
-  category: number
+  category: string
+  path?: string
 }
 
-const FileTable: FC<IFileTableProps> = ({ path, category }) => {
+const FileTable: FC<IFileTableProps> = ({ category, path }) => {
   const [fileData, setFileData] = useState([])
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 
-  async function getFileData(parentDataId: number) {
+  useEffect(() => {
+    if (category === '0') {
+      getFileData(path as string)
+    } else {
+      searchFileDataType(category)
+    }
+  }, [category, path])
+
+  async function getFileData(parentDataId: string) {
     const { data, code } = await getFileDataApi(parentDataId)
     if (code !== 200) return
     setFileData(data.map((item: IFile) => ({ ...item, key: item.id })))
   }
 
-  useEffect(() => {
-    getFileData(path)
-  }, [path])
+  async function searchFileDataType(type: string) {
+    const { data, code } = await searchFileDataTypeApi(type)
+    if (code !== 200) return
+    console.log(data)
+    setFileData(data.map((item: IFile) => ({ ...item, key: item.id })))
+  }
 
   const columns: ColumnsType<IFile> = [
     {
       title: '文件名',
       dataIndex: 'name',
       // @ts-ignore
-      render: (text: number, data) => (
-        <Link to={`/index?category=${category}&path=${data.id}`}>{text}</Link>
-      )
+      render: (text: number, data: IFile) =>
+        data.type === 0 ? (
+          <Link to={`/index?category=${category}&path=${data.id}`}>{text}</Link>
+        ) : (
+          <p>{text}</p>
+        )
     },
     {
       title: '类型',
@@ -40,12 +61,9 @@ const FileTable: FC<IFileTableProps> = ({ path, category }) => {
       render: (text: number) => <p>{typeObj[text]}</p>
     },
     {
-      title: '创建时间',
-      dataIndex: 'createTime'
-    },
-    {
       title: '修改时间',
-      dataIndex: 'updateTime'
+      dataIndex: 'updateTime',
+      render: (text: string) => <p>{text || '-'}</p>
     },
     {
       title: '大小',
@@ -57,10 +75,10 @@ const FileTable: FC<IFileTableProps> = ({ path, category }) => {
       render: (_) => {
         return (
           <Space>
-            <Button type="primary">重命名</Button>
-            <Button type="primary" danger>
-              删除
-            </Button>
+            <ShareAltOutlined className={styles.icon} />
+            <EditOutlined className={styles.icon} />
+            <DownloadOutlined className={styles.icon} />
+            <DeleteFilled className={styles.icon} />
           </Space>
         )
       }
