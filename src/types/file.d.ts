@@ -1,8 +1,8 @@
 
 
 interface IFile {
-    key?: number;
-    id: number;
+    key?: string;
+    id: string;
     name: string;
     type: TType;
     parentDataId: number;

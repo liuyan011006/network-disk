@@ -2,15 +2,13 @@ import { FC, useState } from 'react'
 import { Modal, Input, message, Button } from 'antd'
 import { newFolderApi } from '@/api/fileApi'
 import { FolderAddFilled } from '@ant-design/icons'
-import { useDispatch } from 'react-redux'
-import { setIsFileDataUpdate } from '@/store/file'
 
 interface INewFolderProps {
   path: string
+  updateData: () => void
 }
 
-const NewFolderModal: FC<INewFolderProps> = ({ path }) => {
-  const dispatch = useDispatch()
+const NewFolderModal: FC<INewFolderProps> = ({ path, updateData }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [inputVal, setInputVal] = useState('')
 
@@ -20,7 +18,7 @@ const NewFolderModal: FC<INewFolderProps> = ({ path }) => {
     onCancel()
     if (code !== 200) return message.error('新建失败')
     message.success('新建成功')
-    dispatch(setIsFileDataUpdate(true))
+    updateData()
   }
 
   function onCancel() {

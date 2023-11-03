@@ -1,7 +1,8 @@
 import {
   HistoryOutlined,
   ClearOutlined,
-  FolderOutlined
+  FolderOutlined,
+  CreditCardFilled
 } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
 
@@ -32,6 +33,11 @@ export const navItems: MenuProps['items'] = [
         icon: <HistoryOutlined />
       }
     ]
+  },
+  {
+    label: '我的分享',
+    key: '/share',
+    icon: <CreditCardFilled />
   },
   {
     label: '回收站',

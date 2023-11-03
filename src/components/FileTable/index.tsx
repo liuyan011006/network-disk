@@ -1,6 +1,5 @@
-import { FC, useEffect, useState } from 'react'
-import { Table, Space } from 'antd'
-import { getFileDataApi, searchFileDataTypeApi } from '@/api/fileApi'
+import { FC, useState } from 'react'
+import { Table, Space, message } from 'antd'
 import { typeObj } from './file_table'
 import type { ColumnsType } from 'antd/es/table'
 import { Link } from 'react-router-dom'
@@ -10,44 +9,25 @@ import {
   DownloadOutlined,
   ShareAltOutlined
 } from '@ant-design/icons'
-import styles from './index.module.scss'
-import { useSelector, useDispatch } from 'react-redux'
-import { selectIsFileDataUpdate } from '@/store/file/selector'
-import { setIsFileDataUpdate } from '@/store/file'
+import DeleteModal from '../DeleteModal'
+import { deleteDataApi } from '@/api/recycleApi'
 
 interface IFileTableProps {
-  category: string
-  path?: string
+  data: IFile[]
+  updateData: () => void
 }
 
-const FileTable: FC<IFileTableProps> = ({ category, path }) => {
-  const dispatch = useDispatch()
-  const [fileData, setFileData] = useState([])
+const FileTable: FC<IFileTableProps> = ({ data, updateData }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
-  const isFileDataUpdate = useSelector(selectIsFileDataUpdate)
+  const [selectDataId, setSelectDataId] = useState('')
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false)
 
-  useEffect(() => {
-    if (isFileDataUpdate) {
-      if (category === '0') {
-        getFileData(path as string)
-      } else {
-        searchFileDataType(category)
-      }
-      dispatch(setIsFileDataUpdate(false))
-    }
-  }, [category, path, isFileDataUpdate])
-
-  async function getFileData(parentDataId: string) {
-    const { data, code } = await getFileDataApi(parentDataId)
-    if (code !== 200) return
-    setFileData(data.map((item: IFile) => ({ ...item, key: item.id })))
-  }
-
-  async function searchFileDataType(type: string) {
-    const { data, code } = await searchFileDataTypeApi(type)
-    if (code !== 200) return
-    console.log(data)
-    setFileData(data.map((item: IFile) => ({ ...item, key: item.id })))
+  async function onDeleteFile() {
+    const { code } = await deleteDataApi(selectDataId)
+    setIsDeleteOpen(true)
+    if (code !== 200) return message.error('删除失败')
+    message.success('删除成功')
+    updateData()
   }
 
   const columns: ColumnsType<IFile> = [
@@ -57,7 +37,7 @@ const FileTable: FC<IFileTableProps> = ({ category, path }) => {
       // @ts-ignore
       render: (text: number, data: IFile) =>
         data.type === 0 ? (
-          <Link to={`/index?category=${category}&path=${data.id}`}>{text}</Link>
+          <Link to={`/index?category=0&path=${data.id}`}>{text}</Link>
         ) : (
           <p>{text}</p>
         )
@@ -80,28 +60,40 @@ const FileTable: FC<IFileTableProps> = ({ category, path }) => {
     },
     {
       title: '操作',
-      render: (_) => {
+      render: (_, data) => {
         return (
           <Space>
-            <ShareAltOutlined className={styles.icon} />
-            <EditOutlined className={styles.icon} />
-            <DownloadOutlined className={styles.icon} />
-            <DeleteFilled className={styles.icon} />
+            <ShareAltOutlined onClick={() => console.log(data.id)} />
+            <EditOutlined onClick={() => console.log(data.id)} />
+            <DownloadOutlined onClick={() => console.log(data.id)} />
+            <DeleteFilled
+              onClick={() => {
+                setSelectDataId(data.id)
+                setIsDeleteOpen(true)
+              }}
+            />
           </Space>
         )
       }
     }
   ]
   return (
-    <Table
-      rowSelection={{
-        selectedRowKeys,
-        onChange: (keys) => setSelectedRowKeys(keys)
-      }}
-      columns={columns}
-      dataSource={fileData}
-      pagination={false}
-    />
+    <>
+      <DeleteModal
+        isOpen={isDeleteOpen}
+        onCancel={() => setIsDeleteOpen(false)}
+        onOk={onDeleteFile}
+      />
+      <Table
+        rowSelection={{
+          selectedRowKeys,
+          onChange: (keys) => setSelectedRowKeys(keys)
+        }}
+        columns={columns}
+        dataSource={data}
+        pagination={false}
+      />
+    </>
   )
 }
 export default FileTable

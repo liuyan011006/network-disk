@@ -1,4 +1,4 @@
-import { HomeFilled, CreditCardFilled } from '@ant-design/icons'
+import { HomeFilled } from '@ant-design/icons'
 
 export const NavList = [
     {
@@ -6,11 +6,6 @@ export const NavList = [
         label: '首页',
         key: '/index?category=all'
     },
-    {
-        icon: CreditCardFilled,
-        label: '分享',
-        key: '/share'
-    }
 ]
 
 export const icon_style = (selected: boolean) => {

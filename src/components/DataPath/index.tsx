@@ -4,10 +4,9 @@ import { getDataPathApi } from '@/api/fileApi'
 import { Link } from 'react-router-dom'
 
 interface IDataPathProps {
-  category: string
   path: string
 }
-const DataPath: FC<IDataPathProps> = ({ category, path }) => {
+const DataPath: FC<IDataPathProps> = ({ path }) => {
   const [dataPath, setDataPath] = useState<IPathItem[]>([])
 
   useEffect(() => {
@@ -17,7 +16,7 @@ const DataPath: FC<IDataPathProps> = ({ category, path }) => {
   const dataPathElement = useMemo(() => {
     return dataPath.map((item) => ({
       title: (
-        <Link to={`/index?category=${category}&path=${item.id}`}>
+        <Link to={`/index?category=0&path=${item.id}`}>
           {item.folderName === '/' ? '全部' : item.folderName}
         </Link>
       )
@@ -29,17 +28,16 @@ const DataPath: FC<IDataPathProps> = ({ category, path }) => {
     if (code !== 200) return
     setDataPath(data)
   }
+
   return (
     <>
-      {path == '0' ? (
+      {path === '0' ? (
         <p>全部文件</p>
       ) : (
         <Space>
           {dataPath.length >= 2 && (
             <Link
-              to={`/index?category=${category}&path=${
-                dataPath[dataPath.length - 2].id
-              }`}
+              to={`/index?category=0&path=${dataPath[dataPath.length - 2].id}`}
               style={{ lineHeight: '32px' }}
             >
               返回上一级
