@@ -11,6 +11,9 @@ import {
   ShareAltOutlined
 } from '@ant-design/icons'
 import styles from './index.module.scss'
+import { useSelector, useDispatch } from 'react-redux'
+import { selectIsFileDataUpdate } from '@/store/file/selector'
+import { setIsFileDataUpdate } from '@/store/file'
 
 interface IFileTableProps {
   category: string
@@ -18,16 +21,21 @@ interface IFileTableProps {
 }
 
 const FileTable: FC<IFileTableProps> = ({ category, path }) => {
+  const dispatch = useDispatch()
   const [fileData, setFileData] = useState([])
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+  const isFileDataUpdate = useSelector(selectIsFileDataUpdate)
 
   useEffect(() => {
-    if (category === '0') {
-      getFileData(path as string)
-    } else {
-      searchFileDataType(category)
+    if (isFileDataUpdate) {
+      if (category === '0') {
+        getFileData(path as string)
+      } else {
+        searchFileDataType(category)
+      }
+      dispatch(setIsFileDataUpdate(false))
     }
-  }, [category, path])
+  }, [category, path, isFileDataUpdate])
 
   async function getFileData(parentDataId: string) {
     const { data, code } = await getFileDataApi(parentDataId)

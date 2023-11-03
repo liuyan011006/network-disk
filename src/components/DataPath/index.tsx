@@ -30,7 +30,7 @@ const DataPath: FC<IDataPathProps> = ({ category, path }) => {
     setDataPath(data)
   }
   return (
-    <Space>
+    <>
       {path == '0' ? (
         <p>全部文件</p>
       ) : (
@@ -52,7 +52,7 @@ const DataPath: FC<IDataPathProps> = ({ category, path }) => {
           />
         </Space>
       )}
-    </Space>
+    </>
   )
 }
 
