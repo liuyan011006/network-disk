@@ -1,4 +1,6 @@
-import { RootState } from "@/store";
+import { RootState } from '@/store'
 
 
-export const selectIsFileDataUpdate = (state: RootState) => state.file.isfileDataUpdate;
+
+export const selectSelectedRowKeys = (state: RootState) =>
+  state.file.selectedRowKeys

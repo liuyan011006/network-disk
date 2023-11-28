@@ -1,6 +1,9 @@
 import { FC, useState } from 'react'
 import { Table, Space, message } from 'antd'
 import { typeObj } from './file_table'
+import { useSelector, useDispatch } from 'react-redux'
+import { selectSelectedRowKeys } from '@/store/file/selector'
+import { setSelectedRowKeys } from '@/store/file'
 import type { ColumnsType } from 'antd/es/table'
 import { Link } from 'react-router-dom'
 import {
@@ -18,13 +21,14 @@ interface IFileTableProps {
 }
 
 const FileTable: FC<IFileTableProps> = ({ data, updateData }) => {
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+  const dispatch = useDispatch()
+  const selectedRowKeys = useSelector(selectSelectedRowKeys)
   const [selectDataId, setSelectDataId] = useState('')
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
 
   async function onDeleteFile() {
     const { code } = await deleteDataApi(selectDataId)
-    setIsDeleteOpen(true)
+    setIsDeleteOpen(false)
     if (code !== 200) return message.error('删除失败')
     message.success('删除成功')
     updateData()
@@ -87,7 +91,7 @@ const FileTable: FC<IFileTableProps> = ({ data, updateData }) => {
       <Table
         rowSelection={{
           selectedRowKeys,
-          onChange: (keys) => setSelectedRowKeys(keys)
+          onChange: (keys) => dispatch(setSelectedRowKeys(keys))
         }}
         columns={columns}
         dataSource={data}

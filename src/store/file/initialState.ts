@@ -1,7 +1,9 @@
 interface IInitialState {
-    isfileDataUpdate: boolean
+
+  selectedRowKeys: React.Key[]
 }
 
 export const initialState: IInitialState = {
-    isfileDataUpdate: true
+
+  selectedRowKeys: []
 }
