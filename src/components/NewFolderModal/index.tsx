@@ -1,7 +1,8 @@
 import { FC, useState } from 'react'
-import { Modal, Input, message, Button } from 'antd'
+import { Input, message, Button } from 'antd'
 import { newFolderApi } from '@/api/fileApi'
 import { FolderAddFilled } from '@ant-design/icons'
+import CommonModal from '../CommonModal'
 
 interface INewFolderProps {
   path: string
@@ -9,7 +10,7 @@ interface INewFolderProps {
 }
 
 const NewFolderModal: FC<INewFolderProps> = ({ path, updateData }) => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [visible, setVisible] = useState(false)
   const [inputVal, setInputVal] = useState('')
 
   async function onOk() {
@@ -22,30 +23,28 @@ const NewFolderModal: FC<INewFolderProps> = ({ path, updateData }) => {
   }
 
   function onCancel() {
-    setIsOpen(false)
+    setVisible(false)
     setInputVal('')
   }
 
   return (
-    <>
-      <Button icon={<FolderAddFilled />} onClick={() => setIsOpen(true)}>
-        新建文件夹
-      </Button>
-      <Modal
-        title="新建文件夹"
-        cancelText="取消"
-        okText="确定"
-        open={isOpen}
-        onOk={onOk}
-        onCancel={onCancel}
-      >
+    <CommonModal
+      title="新建文件夹"
+      visible={visible}
+      onOk={onOk}
+      onCancel={onCancel}
+      content={
         <Input
           placeholder="新建文件夹"
           value={inputVal}
           onChange={(e) => setInputVal(e.target.value)}
         />
-      </Modal>
-    </>
+      }
+    >
+      <Button icon={<FolderAddFilled />} onClick={() => setVisible(true)}>
+        新建文件夹
+      </Button>
+    </CommonModal>
   )
 }
 

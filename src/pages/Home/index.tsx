@@ -1,8 +1,9 @@
 import { FC, useMemo, useState, useEffect, useCallback } from 'react'
 import { UploadOutlined } from '@ant-design/icons'
 import styles from './index.module.scss'
-
 import { Button, Space } from 'antd'
+import { useSelector } from 'react-redux'
+import { selectSelectedRowKeys } from '@/store/file/selector'
 import { useLocation } from 'react-router'
 import { parseSearch } from '@/utils/path'
 import { getFileDataApi, searchFileDataTypeApi } from '@/api/fileApi'
@@ -15,6 +16,8 @@ const Home: FC = () => {
   const { search } = useLocation()
   const { category, path }: any = useMemo(() => parseSearch(search), [search])
   const [fileData, setFileData] = useState([])
+  const selectedRowKeys = useSelector(selectSelectedRowKeys)
+
   useEffect(() => {
     updateData()
   }, [category, path])
@@ -42,11 +45,21 @@ const Home: FC = () => {
   return (
     <div style={{ height: '100%' }}>
       <Space>
-        <Button type="primary" icon={<UploadOutlined />}>
-          上传
-        </Button>
-        <NewFolderModal path={path} updateData={updateData} />
-        <DeleteAllModal updateData={updateData} />
+        {selectedRowKeys.length === 0 ? (
+          <>
+            <Button type="primary" icon={<UploadOutlined />}>
+              上传
+            </Button>
+            <NewFolderModal path={path} updateData={updateData} />
+          </>
+        ) : (
+          <>
+            <Button type="primary" icon={<UploadOutlined />}>
+              分享
+            </Button>
+            <DeleteAllModal updateData={updateData} />
+          </>
+        )}
       </Space>
       <div>{category === '0' && <DataPath path={path} />}</div>
       <div className={styles.tableContainer}>
