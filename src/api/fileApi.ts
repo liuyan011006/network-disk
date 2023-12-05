@@ -3,7 +3,17 @@ import { APITYPE } from '@/constant/ApiType'
 
 // 遍历文件
 export const getFileDataApi = (parentDataId: string): any =>
-  instance.get(APITYPE.SYSDATA + `/infoData/${parentDataId}`)
+  instance.get(
+    APITYPE.SYSDATA + `/infoData/${parentDataId}?pageSize=500&pageNow=1`
+  )
+
+// 返回文件目录
+export const getDataFolderApi = (folderId: string): any =>
+  instance.get(APITYPE.SYSDATA + `/getDataFolder/${folderId}`)
+
+// 获取文件详细信息
+export const getDataInfoApi = (dataId: string): any =>
+  instance.get(APITYPE.SYSDATA + `/getDataInfo/${dataId}`)
 
 // 根据文件类型查找
 export const searchFileDataTypeApi = (type: string): any =>
@@ -29,5 +39,43 @@ export const newFolderApi = (parentDataId: string, name: string): any =>
   instance.post(APITYPE.SYSDATA + '/createFolder', { parentDataId, name })
 
 //   重命名
-export const updateFolderName = (id: string, name: string): any =>
+export const updateFolderNameApi = (id: string, name: string): any =>
   instance.put(APITYPE.SYSDATA + '/updateDataName', { id, name })
+
+// 移动文件到另一个文件
+export const shearToNewFolderApi = (
+  ids: string[],
+  targetFolderId: string
+): any =>
+  instance.post(APITYPE.SYSDATA + '/shearToNewFolder', { ids, targetFolderId })
+
+// 复制文件到另一个文件
+export const copyToNewFolderApi = (
+  ids: string[],
+  targetFolderId: string
+): any =>
+  instance.post(APITYPE.SYSDATA + '/copyToNewFolder', { ids, targetFolderId })
+
+// 覆盖文件
+export const batchOverrideFilesApi = (
+  ids: string[],
+  sids: string[],
+  targetFolderId: string
+): any =>
+  instance.post(APITYPE.SYSDATA + '/batchOverrideFiles', {
+    ids,
+    sids,
+    targetFolderId
+  })
+
+// 生成副本文件
+export const batchGenerateDuplicatesApi = (
+  ids: string[],
+  sids: string[],
+  targetFolderId: string
+): any =>
+  instance.post(APITYPE.SYSDATA + '/batchGenerateDuplicates', {
+    ids,
+    sids,
+    targetFolderId
+  })

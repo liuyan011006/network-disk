@@ -1,0 +1,88 @@
+.sameNameFile-title{
+    margin: 0 auto;
+    display:flex;
+    width: 600px;
+    justify-content: space-around;
+    h3{
+        color: skyblue;
+    }
+
+}
+.sameNameFile-container{
+    margin: 0 auto;
+    width: 600px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    .sameNameFile-top{
+        display: flex;
+        justify-content: space-around;
+        .sameFile-list {
+            flex: 1;
+            border-right: 1px solid #ccc;
+            .item {
+                    padding: 10px;
+                    height: 70px;
+                    display: flex;
+            
+                    .icon {
+                        width: 50px;
+                        transform: scale(0.7);
+                    }
+            
+                    .context {
+                        flex: 1;
+            
+                        .name {
+                            width: 150px;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+            
+                        .otherInfo {
+                            font-size: 14px;
+                            color: #ccc;
+                        }
+                    }
+                }
+        }
+        .originalFile-list {
+            flex: 1;
+            .item{
+                padding: 10px;
+                height: 70px;
+                display: flex;
+
+                .icon{
+                    width: 50px;
+                    transform: scale(0.7);
+                }
+                .context{
+                    flex:1;
+                    .name{
+                        width: 150px;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                    .otherInfo{
+                        font-size: 14px;
+                        color: #ccc;
+                    }
+                }
+            }
+        }
+    }
+    .sameNameFile-bottom{
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top:1px solid #ccc ;
+        display: flex;
+        justify-content: space-around;
+    }
+}

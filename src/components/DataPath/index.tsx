@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom'
 
 interface IDataPathProps {
   path: string
+  onClick: (id: string) => void
 }
-const DataPath: FC<IDataPathProps> = ({ path }) => {
+const DataPath: FC<IDataPathProps> = ({ path, onClick }) => {
   const [dataPath, setDataPath] = useState<IPathItem[]>([])
 
   useEffect(() => {
@@ -16,9 +17,9 @@ const DataPath: FC<IDataPathProps> = ({ path }) => {
   const dataPathElement = useMemo(() => {
     return dataPath.map((item) => ({
       title: (
-        <Link to={`/index?category=0&path=${item.id}`}>
+        <a onClick={() => onClick(item.id + '')}>
           {item.folderName === '/' ? '全部' : item.folderName}
-        </Link>
+        </a>
       )
     }))
   }, [dataPath])
@@ -36,12 +37,12 @@ const DataPath: FC<IDataPathProps> = ({ path }) => {
       ) : (
         <Space>
           {dataPath.length >= 2 && (
-            <Link
-              to={`/index?category=0&path=${dataPath[dataPath.length - 2].id}`}
+            <a
+              onClick={() => onClick(dataPath[dataPath.length - 2].id + '')}
               style={{ lineHeight: '32px' }}
             >
               返回上一级
-            </Link>
+            </a>
           )}
           <Breadcrumb
             style={{ lineHeight: '32px' }}

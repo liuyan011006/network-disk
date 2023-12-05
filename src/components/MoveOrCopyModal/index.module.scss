@@ -1,0 +1,30 @@
+.empty{
+    .emptyImg{
+        width: 90px;
+        height: 90px;
+    }
+    p{
+        color: #afb3bf;
+    }
+}
+
+.fileList{
+    min-height: 100px;
+    max-height: 400px;
+    overflow: auto;
+    margin: 20px 0;
+    text-align: center;
+    .fileItem{
+        height: 40px;
+        display: flex;
+        justify-content: flex-start;
+        align-content: center;
+        .fileImg{
+            height: 100%;
+            margin-right: 10px;
+        }
+        p{
+            font-size: 12px;
+        }
+    }
+}
