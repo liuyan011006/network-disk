@@ -1,9 +1,5 @@
-.icon {
-  color: rgb(0, 136, 255);
-  font-size: 16px;
-  cursor: pointer;
-  padding: 0 1px;
-  &:hover {
-    color: rgb(101, 180, 249);
-  }
+.fileName {
+  display: flex;
+
+  column-gap: 20px;
 }

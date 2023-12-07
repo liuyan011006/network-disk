@@ -1,7 +1,6 @@
 import { FC, useState, useEffect, useMemo } from 'react'
 import { Space, Breadcrumb } from 'antd'
 import { getDataPathApi } from '@/api/fileApi'
-import { Link } from 'react-router-dom'
 
 interface IDataPathProps {
   path: string

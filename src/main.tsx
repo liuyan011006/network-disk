@@ -1,4 +1,5 @@
 import React from 'react'
+import '@/assets/js/iconfont.js'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import { Provider } from 'react-redux'

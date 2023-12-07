@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Table, Space, message, Input } from 'antd'
 import { typeObj } from './file_table'
 import { useSelector, useDispatch } from 'react-redux'
@@ -26,14 +26,27 @@ import {
 import CommonModal from '../CommonModal'
 import MoveModal from '../MoveOrCopyModal'
 import ResolveSameModalBox from '../ResolveSameModal'
+import IconfontComp from '../IconfontComp'
+import { fileType } from '@/constant/FileType'
+import styles from './index.module.scss'
 
 interface IFileTableProps {
   loading: boolean
   data: IFile[]
+  total: number
+  pageNow: number
+  onPageNowChange: (page: number) => void
   updateData: () => void
 }
 
-const FileTable: FC<IFileTableProps> = ({ loading, data, updateData }) => {
+const FileTable: FC<IFileTableProps> = ({
+  loading,
+  data,
+  total,
+  pageNow,
+  onPageNowChange,
+  updateData
+}) => {
   const dispatch = useDispatch()
   const selectedRowKeys = useSelector(selectSelectedRowKeys)
   const [selectDataId, setSelectDataId] = useState('')
@@ -46,6 +59,8 @@ const FileTable: FC<IFileTableProps> = ({ loading, data, updateData }) => {
   const [newFolder, setNewFolder] = useState([])
   const [oldFolder, setOldFolder] = useState([])
   const [targetId, setTargetId] = useState('')
+
+  useEffect(() => {}, [])
 
   // 删除单个文件
   async function onDeleteFile() {
@@ -66,7 +81,7 @@ const FileTable: FC<IFileTableProps> = ({ loading, data, updateData }) => {
   // 移动文件
   async function onMoveFile(targetId: string) {
     const { data: pathList } = await getDataPathApi(targetId)
-    if (pathList.some((item: any) => item.id === targetId)) {
+    if (pathList.some((item: any) => item.id === selectDataId)) {
       return message.warning('不能复制到自身及子文件夹下')
     }
     const { data, code } = await shearToNewFolderApi([selectDataId], targetId)
@@ -86,9 +101,10 @@ const FileTable: FC<IFileTableProps> = ({ loading, data, updateData }) => {
   // 复制文件
   async function onCopyFile(targetId: string) {
     const { data: pathList } = await getDataPathApi(targetId)
-    if (pathList.some((item: any) => item.id === targetId)) {
+    if (pathList.some((item: any) => item.id === selectDataId)) {
       return message.warning('不能复制到自身及子文件夹下')
     }
+
     const { data, code } = await copyToNewFolderApi([selectDataId], targetId)
     setCopyOpen(false)
     if (code === 200) {
@@ -123,9 +139,8 @@ const FileTable: FC<IFileTableProps> = ({ loading, data, updateData }) => {
     setIsResolveSameModalOpen(false)
   }
 
-  function onClick({ key }: any, data: IFile) {
-    setSelectDataId(data.id)
-    console.log(key)
+  function onPageNow(page: number) {
+    onPageNowChange(page)
   }
 
   const columns: ColumnsType<IFile> = [
@@ -135,7 +150,16 @@ const FileTable: FC<IFileTableProps> = ({ loading, data, updateData }) => {
       // @ts-ignore
       render: (text: number, data: IFile) =>
         data.type === 0 ? (
-          <Link to={`/index?category=0&path=${data.id}`}>{text}</Link>
+          <div className={styles.fileName}>
+            {/* @ts-ignore */}
+            <IconfontComp name={fileType[data.type]} size="20" />
+            <Link
+              to={`/index?category=0&path=${data.id}`}
+              onClick={() => onPageNow(1)}
+            >
+              {text}
+            </Link>
+          </div>
         ) : (
           <p>{text}</p>
         )
@@ -243,9 +267,16 @@ const FileTable: FC<IFileTableProps> = ({ loading, data, updateData }) => {
           selectedRowKeys,
           onChange: (keys) => dispatch(setSelectedRowKeys(keys))
         }}
+        scroll={{ y: 'calc(100vh - 350px)' }}
         columns={columns}
         dataSource={data}
-        pagination={false}
+        pagination={{
+          hideOnSinglePage: true,
+          total: total,
+          current: pageNow,
+          defaultPageSize: 500,
+          onChange: onPageNow
+        }}
       />
     </>
   )

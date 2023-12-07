@@ -19,34 +19,47 @@ const Home: FC = () => {
   const { category, path }: any = useMemo(() => parseSearch(search), [search])
   const [loading, setLoading] = useState(false)
   const [fileData, setFileData] = useState([])
+  const [total, setTotal] = useState(0)
+  const [pageNow, setPageNow] = useState(1)
   const selectedRowKeys = useSelector(selectSelectedRowKeys)
 
   useEffect(() => {
+    updateData()
+  }, [pageNow])
+
+  useEffect(() => {
+    setPageNow(1)
     updateData()
   }, [category, path])
 
   const updateData = useCallback(() => {
     if (category === '0') {
-      getFileData(path as string)
+      getFileData(path as string, pageNow)
     } else {
-      searchFileDataType(category)
+      searchFileDataType(category, pageNow)
     }
-  }, [category, path])
+  }, [category, path, pageNow])
 
-  async function getFileData(parentDataId: string) {
+  async function getFileData(parentDataId: string, pageNow: number) {
     setLoading(true)
-    const { data, code } = await getFileDataApi(parentDataId)
+    const { data, code } = await getFileDataApi(parentDataId, pageNow)
     setLoading(false)
     if (code !== 200) return
     setFileData(data.list.map((item: IFile) => ({ ...item, key: item.id })))
+    setTotal(data.total)
   }
 
-  async function searchFileDataType(type: string) {
+  async function searchFileDataType(type: string, pageNow: number) {
     setLoading(true)
-    const { data, code } = await searchFileDataTypeApi(type)
+    const { data, code } = await searchFileDataTypeApi(type, pageNow)
     setLoading(false)
     if (code !== 200) return
-    setFileData(data.map((item: IFile) => ({ ...item, key: item.id })))
+    setFileData(data.list.map((item: IFile) => ({ ...item, key: item.id })))
+    setTotal(data.total)
+  }
+
+  function onPageNowChange(page: number) {
+    setPageNow(page)
   }
 
   return (
@@ -81,6 +94,9 @@ const Home: FC = () => {
           <FileTable
             loading={loading}
             data={fileData}
+            total={total}
+            pageNow={pageNow}
+            onPageNowChange={onPageNowChange}
             updateData={updateData}
           />
         </div>

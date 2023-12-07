@@ -2,10 +2,11 @@ import { FC, useState, useEffect } from 'react'
 import CommonModal from '../CommonModal'
 import DataPath from '../DataPath'
 import styles from './index.module.scss'
-import fileImg from '@/assets/image/file.png'
 import { getDataFolderApi, getDataInfoApi } from '@/api/fileApi'
 import { LoadingOutlined } from '@ant-design/icons'
 import { Spin } from 'antd'
+import IconfontComp from '../IconfontComp'
+import { fileType } from '@/constant/FileType'
 
 interface IEmptyProps {
   title: string
@@ -29,14 +30,13 @@ interface IMoveOrCopyModalProps {
 const EmptyData: FC<IEmptyProps> = ({ name, title }) => {
   return (
     <div className={styles.empty}>
-      <img className={styles.emptyImg} src={fileImg} />
+      <IconfontComp name={'wenjianjia'} className={styles.emptyImg} />
       <p>
         {title}到 {name} 文件
       </p>
     </div>
   )
 }
-
 const Content: FC<IContentProps> = ({ path, title, onPathChange }) => {
   const [loading, setLoading] = useState(false)
   const [fileData, setFileData] = useState<any[]>([])
@@ -77,7 +77,8 @@ const Content: FC<IContentProps> = ({ path, title, onPathChange }) => {
                 className={styles.fileItem}
                 onClick={() => onPathChange(item.id)}
               >
-                <img className={styles.fileImg} src={fileImg} />
+                {/* @ts-ignore */}
+                <IconfontComp name={fileType[item.type]}className={styles.fileImg}/>
                 <p>{item.name}</p>
               </div>
             )

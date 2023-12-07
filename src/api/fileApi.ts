@@ -2,9 +2,14 @@ import instance from './index'
 import { APITYPE } from '@/constant/ApiType'
 
 // 遍历文件
-export const getFileDataApi = (parentDataId: string): any =>
+export const getFileDataApi = (
+  parentDataId: string,
+  pageNow: number,
+  pageSize: number = 500
+): any =>
   instance.get(
-    APITYPE.SYSDATA + `/infoData/${parentDataId}?pageSize=500&pageNow=1`
+    APITYPE.SYSDATA +
+      `/infoData/${parentDataId}?pageSize=${pageSize}&pageNow=${pageNow}`
   )
 
 // 返回文件目录
@@ -16,8 +21,15 @@ export const getDataInfoApi = (dataId: string): any =>
   instance.get(APITYPE.SYSDATA + `/getDataInfo/${dataId}`)
 
 // 根据文件类型查找
-export const searchFileDataTypeApi = (type: string): any =>
-  instance.get(APITYPE.SYSDATA + `/traverseDataByType/${type}`)
+export const searchFileDataTypeApi = (
+  type: string,
+  pageNow: number,
+  pageSize: number = 10
+): any =>
+  instance.get(
+    APITYPE.SYSDATA +
+      `/traverseDataByType/${type}?pageSize=${pageSize}&pageNow=${pageNow}`
+  )
 
 // 获取路径
 export const getDataPathApi = (dataId: string): any =>
