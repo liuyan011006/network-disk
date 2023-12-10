@@ -5,8 +5,11 @@ const fileSlice = createSlice({
   name: 'file',
   initialState,
   reducers: {
-    setSelectedRowKeys(state, action: PayloadAction<React.Key[]>) {
-      state.selectedRowKeys = action.payload
+    setFileSelectedRowKeys(state, action: PayloadAction<React.Key[]>) {
+      state.fileSelectedRowKeys = action.payload
+    },
+    setRecycleSelectedRowKeys(state, action: PayloadAction<React.Key[]>) {
+      state.recycleSelectedRowKeys = action.payload
     }
   }
 })
@@ -15,4 +18,5 @@ export const FILE_SLICE_NAME = fileSlice.name
 
 export const fileReducer = fileSlice.reducer
 
-export const { setSelectedRowKeys } = fileSlice.actions
+export const { setFileSelectedRowKeys, setRecycleSelectedRowKeys } =
+  fileSlice.actions

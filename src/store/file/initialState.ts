@@ -1,9 +1,9 @@
 interface IInitialState {
-
-  selectedRowKeys: React.Key[]
+  fileSelectedRowKeys: React.Key[]
+  recycleSelectedRowKeys: React.Key[]
 }
 
 export const initialState: IInitialState = {
-
-  selectedRowKeys: []
+  fileSelectedRowKeys: [],
+  recycleSelectedRowKeys: []
 }

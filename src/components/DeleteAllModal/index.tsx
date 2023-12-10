@@ -1,7 +1,7 @@
 import { FC, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectSelectedRowKeys } from '@/store/file/selector'
-import { setSelectedRowKeys } from '@/store/file'
+import { selectFileSelectedRowKeys } from '@/store/file/selector'
+import { setFileSelectedRowKeys } from '@/store/file'
 import { Button, message } from 'antd'
 import { DeleteFilled } from '@ant-design/icons'
 import { deleteDataAllApi } from '@/api/recycleApi'
@@ -12,7 +12,7 @@ interface IDeleteAllModalProps {
 }
 const DeleteAllModal: FC<IDeleteAllModalProps> = ({ updateData }) => {
   const dispatch = useDispatch()
-  const selectedRowKeys = useSelector(selectSelectedRowKeys)
+  const selectedRowKeys = useSelector(selectFileSelectedRowKeys)
   const [visible, setVisible] = useState(false)
   async function onAllDeleteFile() {
     if (selectedRowKeys.length === 0) return message.warning('请选择文件')
@@ -20,7 +20,7 @@ const DeleteAllModal: FC<IDeleteAllModalProps> = ({ updateData }) => {
     setVisible(false)
     if (code !== 200) return message.error('删除失败')
     message.success('删除成功')
-    dispatch(setSelectedRowKeys([]))
+    dispatch(setFileSelectedRowKeys([]))
     updateData()
   }
   return (

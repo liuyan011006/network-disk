@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from 'react'
-import { Table, Space, message, Input } from 'antd'
-import { typeObj } from './file_table'
+import { Table, Space, message, Input, Tooltip } from 'antd'
+import { typeObj } from '@/constant/FileType'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectSelectedRowKeys } from '@/store/file/selector'
-import { setSelectedRowKeys } from '@/store/file'
+import { selectFileSelectedRowKeys } from '@/store/file/selector'
+import { setFileSelectedRowKeys } from '@/store/file'
 import type { ColumnsType } from 'antd/es/table'
 import { Link } from 'react-router-dom'
 import {
@@ -24,8 +24,8 @@ import {
   batchGenerateDuplicatesApi
 } from '@/api/fileApi'
 import CommonModal from '../CommonModal'
-import MoveModal from '../MoveOrCopyModal'
-import ResolveSameModalBox from '../ResolveSameModal'
+import MoveOrCopyModal from '../MoveOrCopyModal'
+import ResolveSameModal from '../ResolveSameModal'
 import IconfontComp from '../IconfontComp'
 import { fileType } from '@/constant/FileType'
 import styles from './index.module.scss'
@@ -48,7 +48,7 @@ const FileTable: FC<IFileTableProps> = ({
   updateData
 }) => {
   const dispatch = useDispatch()
-  const selectedRowKeys = useSelector(selectSelectedRowKeys)
+  const selectedRowKeys = useSelector(selectFileSelectedRowKeys)
   const [selectDataId, setSelectDataId] = useState('')
   const [inputVal, setInputVal] = useState('')
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
@@ -161,7 +161,11 @@ const FileTable: FC<IFileTableProps> = ({
             </Link>
           </div>
         ) : (
-          <p>{text}</p>
+          <div className={styles.fileName}>
+            {/* @ts-ignore */}
+            <IconfontComp name={fileType[data.type]} size="20" />
+            <span>{text}</span>
+          </div>
         )
     },
     {
@@ -185,34 +189,45 @@ const FileTable: FC<IFileTableProps> = ({
       render: (_, data) => {
         return (
           <Space>
-            <ShareAltOutlined onClick={() => console.log(data.id)} />
-            <EditOutlined
-              onClick={() => {
-                setSelectDataId(data.id)
-                setInputVal(data.name)
-                setIsUpdateNameOpen(true)
-              }}
-            />
-            <DownloadOutlined onClick={() => console.log(data.id)} />
-            <DeleteFilled
-              onClick={() => {
-                setSelectDataId(data.id)
-                setIsDeleteOpen(true)
-              }}
-            />
-
-            <DragOutlined
-              onClick={() => {
-                setSelectDataId(data.id)
-                setMoveOpen(true)
-              }}
-            />
-            <CopyOutlined
-              onClick={() => {
-                setSelectDataId(data.id)
-                setCopyOpen(true)
-              }}
-            />
+            <Tooltip title="分享">
+              <ShareAltOutlined onClick={() => console.log(data.id)} />
+            </Tooltip>
+            <Tooltip title="编辑">
+              <EditOutlined
+                onClick={() => {
+                  setSelectDataId(data.id)
+                  setInputVal(data.name)
+                  setIsUpdateNameOpen(true)
+                }}
+              />
+            </Tooltip>
+            <Tooltip title="下载">
+              <DownloadOutlined onClick={() => console.log(data.id)} />
+            </Tooltip>
+            <Tooltip title="删除">
+              <DeleteFilled
+                onClick={() => {
+                  setSelectDataId(data.id)
+                  setIsDeleteOpen(true)
+                }}
+              />
+            </Tooltip>
+            <Tooltip title="移动">
+              <DragOutlined
+                onClick={() => {
+                  setSelectDataId(data.id)
+                  setMoveOpen(true)
+                }}
+              />
+            </Tooltip>
+            <Tooltip title="复制">
+              <CopyOutlined
+                onClick={() => {
+                  setSelectDataId(data.id)
+                  setCopyOpen(true)
+                }}
+              />
+            </Tooltip>
           </Space>
         )
       }
@@ -242,19 +257,19 @@ const FileTable: FC<IFileTableProps> = ({
           <p>确定删除所选的文件吗？删除的文件可在 10天 内通过回收站还原</p>
         }
       />
-      <MoveModal
+      <MoveOrCopyModal
         title="移动"
         visible={isMoveOpen}
         onCancel={() => setMoveOpen(false)}
         onOk={onMoveFile}
       />
-      <MoveModal
+      <MoveOrCopyModal
         title="复制"
         visible={isCopyOpen}
         onCancel={() => setCopyOpen(false)}
         onOk={onCopyFile}
       />
-      <ResolveSameModalBox
+      <ResolveSameModal
         visible={isResolveSameModalOpen}
         newFolder={newFolder}
         oldFolder={oldFolder}
@@ -265,7 +280,7 @@ const FileTable: FC<IFileTableProps> = ({
         loading={loading}
         rowSelection={{
           selectedRowKeys,
-          onChange: (keys) => dispatch(setSelectedRowKeys(keys))
+          onChange: (keys) => dispatch(setFileSelectedRowKeys(keys))
         }}
         scroll={{ y: 'calc(100vh - 350px)' }}
         columns={columns}

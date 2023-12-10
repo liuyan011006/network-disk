@@ -27,7 +27,6 @@ const SendCodeBtn: FC<ISendCodeBtnProps> = ({ onClick, style }) => {
   return (
     <Button
       style={style}
-      ghost={true}
       disabled={isDisabled}
       onClick={() => onClick(handleTime)}
     >

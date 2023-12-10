@@ -1,6 +1,7 @@
 import { RootState } from '@/store'
 
+export const selectFileSelectedRowKeys = (state: RootState) =>
+  state.file.fileSelectedRowKeys
 
-
-export const selectSelectedRowKeys = (state: RootState) =>
-  state.file.selectedRowKeys
+export const selectRecycleSelectedRowKeys = (state: RootState) =>
+  state.file.recycleSelectedRowKeys

@@ -5,8 +5,12 @@ import styles from './index.module.scss'
 import { toPloginApi, toCloginApi, sendCodeApi } from '@/api/loginApi'
 import SendCodeBtn from '@/components/SendCodeBtn'
 import useInput from '@/hooks/useInput'
+import { infoUserApi } from '@/api/personApi'
+import { useDispatch } from 'react-redux'
+import { setUserInfo } from '@/store/user'
 
 const View = () => {
+  const dispatch = useDispatch()
   const navigateTo = useNavigate()
   const username = useInput()
   const password = useInput()
@@ -22,6 +26,7 @@ const View = () => {
     message.success('登录成功！')
     localStorage.setItem('wl-network-token', data.token)
     navigateTo('/index?category=0&path=0')
+    getUserInfo()
   }
 
   async function toClogin() {
@@ -43,6 +48,12 @@ const View = () => {
     if (code !== 200) return message.error('发送验证码失败!')
     message.success('发送验证码成功!')
     callback()
+  }
+
+  async function getUserInfo() {
+    const { data } = await infoUserApi()
+    dispatch(setUserInfo(data))
+    localStorage.setItem('userInfo', JSON.stringify(data))
   }
 
   return (

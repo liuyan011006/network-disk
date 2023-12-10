@@ -18,7 +18,7 @@ export const navItems: MenuProps['items'] = [
         icon: <HistoryOutlined />
       },
       {
-        label: '最近',
+        label: '图片',
         key: '/index?category=1',
         icon: <HistoryOutlined />
       },
@@ -28,8 +28,28 @@ export const navItems: MenuProps['items'] = [
         icon: <HistoryOutlined />
       },
       {
-        label: '文件',
+        label: '文档',
         key: '/index?category=3',
+        icon: <HistoryOutlined />
+      },
+      {
+        label: '音乐',
+        key: '/index?category=4',
+        icon: <HistoryOutlined />
+      },
+      {
+        label: '种子',
+        key: '/index?category=5',
+        icon: <HistoryOutlined />
+      },
+      {
+        label: '压缩包',
+        key: '/index?category=6',
+        icon: <HistoryOutlined />
+      },
+      {
+        label: '其他',
+        key: '/index?category=7',
         icon: <HistoryOutlined />
       }
     ]
