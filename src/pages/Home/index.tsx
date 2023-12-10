@@ -23,6 +23,7 @@ import NewFolderModal from '@/components/NewFolderModal'
 import DeleteAllModal from '@/components/DeleteAllModal'
 import MoveOrCopyModal from '@/components/MoveOrCopyModal'
 import ResolveSameModal from '@/components/ResolveSameModal'
+import UploadBtn from '@/components/UploadBtn'
 
 const Home: FC = () => {
   const dispatch = useDispatch()
@@ -172,9 +173,7 @@ const Home: FC = () => {
         <Space>
           {selectedRowKeys.length === 0 ? (
             <>
-              <Button type="primary" icon={<UploadOutlined />}>
-                上传
-              </Button>
+              <UploadBtn path={path} />
               <NewFolderModal path={path} updateData={updateData} />
             </>
           ) : (

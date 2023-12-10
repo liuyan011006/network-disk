@@ -35,17 +35,6 @@ export const searchFileDataTypeApi = (
 export const getDataPathApi = (dataId: string): any =>
   instance.get(APITYPE.SYSDATA + `/getDataPath/${dataId}`)
 
-// 上传 有问题。。。
-export const uploadDataApi = (formdata: any): any =>
-  instance({
-    method: 'POST',
-    url: APITYPE.SYSDATA + '/uploadData',
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    },
-    data: formdata
-  })
-
 // 新建文件夹
 export const newFolderApi = (parentDataId: string, name: string): any =>
   instance.post(APITYPE.SYSDATA + '/createFolder', { parentDataId, name })
